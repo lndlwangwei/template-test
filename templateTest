@@ -1,0 +1,29 @@
+# -*- coding: UTF-8 -*-
+from jinja2 import PackageLoader, Environment, FileSystemLoader
+import configparser
+import os
+
+targetDir = "%s/%s" % (os.getcwd(), 'target')
+if (not os.path.exists(targetDir)):
+    os.mkdir(targetDir)
+
+# 读取配置
+config = configparser.ConfigParser()
+config.read("config.ini", "utf-8")
+default = dict(config['default'])
+default['domain_lower'] = default['domain'][0].lower() + default['domain'][1:]
+# print(default)
+
+# 创建一个包加载器对象
+TemplateLoader = FileSystemLoader(searchpath='/home/wangwei/PycharmProjects/template-test/templates')
+env = Environment(loader=TemplateLoader)
+# 生成service interface
+template = env.get_template('service.java')  # 获取一个模板文件
+print(template.render(**default))  # 渲染
+# serviceInterfaceFile = open("%s/%s" % (targetDir, default[]))
+
+
+
+
+
+
